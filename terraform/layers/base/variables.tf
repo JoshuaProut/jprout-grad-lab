@@ -10,3 +10,8 @@ variable "environment" {
   default     = "Dev"
 }
 
+variable "cidr" {
+  description = "CIDR of the VPC to be created"
+  type        = string
+  default     = "10.0.0.0/16"
+}

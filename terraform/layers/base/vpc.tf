@@ -4,15 +4,16 @@ data "aws_availability_zones" "available" {
 }
 
 locals {
-  azs  = data.aws_availability_zones.available.names
-  cidr = "10.0.0.0/16"
+  azs             = data.aws_availability_zones.available.names
+  cidr            = var.cidr
+  resource_prefix = "${var.project}-${var.environment}"
 }
 
 
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "dev-vpc"
+  name = "${local.resource_prefix}-vpc"
   cidr = local.cidr
 
 
