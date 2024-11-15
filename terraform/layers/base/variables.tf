@@ -10,3 +10,8 @@ variable "environment" {
   default     = "dev"
 }
 
+variable "region" {
+  description = "Region for launch of resources"
+  type        = string
+  default     = "eu-west-2"
+}
