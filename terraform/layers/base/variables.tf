@@ -5,8 +5,13 @@ variable "project" {
 }
 
 variable "environment" {
-  description = "The environement of the resource"
+  description = "The environment of the resource"
   type        = string
   default     = "Dev"
 }
 
+variable "cidr" {
+  description = "CIDR of the VPC to be created"
+  type        = string
+  default     = "10.0.0.0/16"
+}
