@@ -4,9 +4,8 @@ data "aws_availability_zones" "available" {
 }
 
 locals {
-  azs             = data.aws_availability_zones.available.names
-  cidr            = var.cidr
-  resource_prefix = "${var.project}-${var.environment}"
+  azs  = data.aws_availability_zones.available.names
+  cidr = var.cidr
 }
 
 

@@ -1,7 +1,7 @@
 variable "project" {
   description = "The name of the project"
   type        = string
-  default     = "Grad-lab-1"
+  default     = "grad-lab-1"
 }
 
 variable "environment" {

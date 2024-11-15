@@ -1,5 +1,10 @@
-data "aws_s3" "s3_webfiles_bucket" {
+// Find base module
+module "base" {
+  source = "../base"
+}
 
+output "s3_name" {
+  value = module.base.s3_webfiles_arn
 }
 
 // Create IAM role
@@ -36,8 +41,8 @@ resource "aws_iam_policy" "s3_access_policy" {
           "s3:ListBucket"
         ]
         Resource = [
-          "arn:aws:s3:::your-bucket-name",
-          "arn:aws:s3:::your-bucket-name/*"
+          "${module.base.s3_webfiles_arn}",
+          "${module.base.s3_webfiles_arn}/*"
         ]
       }
     ]
