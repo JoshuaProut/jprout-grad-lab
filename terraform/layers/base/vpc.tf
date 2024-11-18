@@ -24,6 +24,23 @@ module "vpc" {
   enable_nat_gateway = true
   single_nat_gateway = var.environment == "Dev" ? true : false
 
+}
 
+module "s3_vpc_endpoint" {
+  source = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
 
+  vpc_id = module.vpc.vpc_id
+
+  endpoints = {
+    s3 = {
+      service      = "s3"
+      service_type = "Gateway"
+
+      route_table_ids = module.vpc.private_route_table_ids
+
+      tags = {
+        Name = "${local.resource_prefix}-s3-vpc-gateway"
+      }
+    }
+  }
 }
