@@ -22,10 +22,18 @@ module "vpc" {
 
 
   enable_nat_gateway = true
-  single_nat_gateway = var.environment == "Dev" ? true : false
+  single_nat_gateway = var.environment == "dev" ? true : false
 
   tags = {
     Name = "${local.resource_prefix}-vpc"
+  }
+
+  public_subnet_tags = {
+    Name = "${local.resource_prefix}-subnet-public"
+  }
+
+  private_subnet_tags = {
+    Name = "${local.resource_prefix}-subnet-private"
   }
 
 }
