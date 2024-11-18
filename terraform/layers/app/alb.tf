@@ -24,7 +24,7 @@ resource "aws_security_group" "alb_sg" {
 
 resource "aws_vpc_security_group_ingress_rule" "allow_alb_http_in" {
 
-  security_group_id = aws_security_group.alb_sg
+  security_group_id = aws_security_group.alb_sg.id
 
   cidr_ipv4   = "0.0.0.0/0"
   from_port   = 80
@@ -34,7 +34,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_alb_http_in" {
 
 resource "aws_vpc_security_group_ingress_rule" "allow_alb_https_in" {
 
-  security_group_id = aws_security_group.alb_sg
+  security_group_id = aws_security_group.alb_sg.id
   cidr_ipv4         = "0.0.0.0/0"
   from_port         = 443
   to_port           = 443
@@ -42,7 +42,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_alb_https_in" {
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_alb_all_out" {
-  security_group_id = aws_security_group.alb_sg
+  security_group_id = aws_security_group.alb_sg.id
 
   cidr_ipv4   = "0.0.0.0/0"
   ip_protocol = -1
