@@ -24,6 +24,10 @@ module "vpc" {
   enable_nat_gateway = true
   single_nat_gateway = var.environment == "Dev" ? true : false
 
+  tags = {
+    Name = "${local.resource_prefix}-vpc"
+  }
+
 }
 
 module "s3_vpc_endpoint" {
