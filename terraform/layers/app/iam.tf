@@ -1,4 +1,4 @@
-// Find base module
+/* Find base module
 module "base" {
   source = "../base"
 }
@@ -6,6 +6,16 @@ module "base" {
 output "s3_name" {
   value = module.base.s3_webfiles_arn
 }
+
+*/
+
+
+// Get S3 bucket data
+data "aws_s3_bucket" "s3_webfiles" {
+  bucket = "${local.resource_prefix}-s3-webfiles"
+}
+
+
 
 locals {
   resource_prefix = "${var.project}-${var.environment}"
@@ -45,8 +55,8 @@ resource "aws_iam_policy" "s3_access_policy" {
           "s3:ListBucket"
         ]
         Resource = [
-          "${module.base.s3_webfiles_arn}",
-          "${module.base.s3_webfiles_arn}/*"
+          "${data.aws_s3_bucket.s3_webfiles.arn}",
+          "${data.aws_s3_bucket.s3_webfiles.arn}/*"
         ]
       }
     ]
