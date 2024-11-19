@@ -89,7 +89,7 @@ module "public_alb" {
       health_check = {
         path                = "/"
         protocol            = "HTTP"
-        interval            = 30
+        interval            = 60
         timeout             = 5
         healthy_threshold   = 3
         unhealthy_threshold = 3
