@@ -1,26 +1,3 @@
-// VPC data
-data "aws_vpc" "vpc" {
-  filter {
-    name   = "tag:Name"
-    values = ["${local.resource_prefix}-vpc"]
-  }
-}
-
-// Subnet data
-data "aws_subnets" "vpc_public_subnets" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.vpc.id]
-  }
-
-  filter {
-    name   = "tag:Name"
-    values = ["${local.resource_prefix}-vpc-public-*"]
-  }
-
-
-}
-
 // Security group rules
 resource "aws_security_group" "alb_sg" {
   name   = "${local.resource_prefix}-alb-sg"
