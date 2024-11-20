@@ -49,7 +49,8 @@ resource "aws_autoscaling_group" "web_asg" {
   health_check_type   = "ELB"
 
   launch_template {
-    id = aws_launch_template.web_launch_template.id
+    id      = aws_launch_template.web_launch_template.id
+    version = "$Latest"
   }
 
   tag {
