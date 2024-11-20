@@ -42,5 +42,6 @@ resource "aws_launch_template" "web_instances" {
   name                   = "${local.resource_prefix}-launch-template"
   image_id               = data.aws_ami.amazon_linux_2.image_id
   vpc_security_group_ids = [aws_security_group.web_instances_sg]
+  instance_type          = var.instance_type
 
 }
