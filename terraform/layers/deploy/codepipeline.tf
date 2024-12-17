@@ -23,7 +23,7 @@ resource "aws_codepipeline" "codepipeline_deploy" {
 
       configuration = {
         ConnectionArn    = data.aws_codestarconnections_connection.codestar_connection.arn
-        FullRepositoryId = "${var.github_org}-${var.github_repo}"
+        FullRepositoryId = "${var.github_org}/${var.github_repo}"
         BranchName       = var.github_branch
       }
     }
