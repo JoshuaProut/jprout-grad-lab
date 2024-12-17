@@ -56,6 +56,16 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "${aws_s3_bucket.codepipeline_artifacts.arn}/*",
     ]
   }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "codebuild:BatchGetBuilds",
+      "codebuild:startBuild"
+    ]
+    resources = ["*"]
+  }
 }
 
 
@@ -90,7 +100,7 @@ data "aws_iam_policy_document" "codebuild_policy" {
       "codebuild:startBuild"
     ]
 
-    resources = [aws_codebuild_project.codebuild_base.arn]
+    resources = ["*"]
 
   }
 
@@ -101,9 +111,25 @@ data "aws_iam_policy_document" "codebuild_policy" {
       "logs:CreateLogStream",
       "logs:PutLogEvents",
       "logs:PutLogEventsBatch",
+      "logs:CreateLogGroup"
     ]
 
     resources = ["arn:aws:logs:*"]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:List*",
+      "s3:Get*",
+      "s3:Put*",
+    ]
+
+    resources = [
+      aws_s3_bucket.codepipeline_artifacts.arn,
+      "${aws_s3_bucket.codepipeline_artifacts.arn}/*",
+    ]
   }
 
 }

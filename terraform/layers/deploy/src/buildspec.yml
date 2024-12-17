@@ -1,9 +1,22 @@
 version: 0.2
 
+env:
+  variables:
+    ENVIRONMENT: ${environment}
+    TF_IN_AUTOMATION: 1
+    TERRAFORM_VERSION: ${tf_version}
+
+
 phases:
   install: 
     commands: 
       - echo "Installing terraform"
+      - cd /usr/bin
+      - curl -O https://releases.hashicorp.com/terraform/$${TERRAFORM_VERSION}/terraform_$${TERRAFORM_VERSION}_linux_amd64.zip
+      - unzip terraform_$${TERRAFORM_VERSION}_linux_amd64.zip
+      - terraform --version
+      - echo "Completed installing terraform..."
+
     artifacts:
       files:
         - "**/*"

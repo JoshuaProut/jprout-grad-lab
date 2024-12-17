@@ -9,13 +9,18 @@ resource "aws_codebuild_project" "codebuild_base" {
   }
 
   environment {
-    compute_type = "BUILD_GENERAL1_SMALL"
-    image        = "aws/codebuild.standard:7.0"
-    type         = "LINUX_CONTAINER"
+    compute_type                = var.codebuild_node_size
+    image                       = var.codebuild_image
+    type                        = "LINUX_CONTAINER"
+    image_pull_credentials_type = "CODEBUILD"
+    privileged_mode             = true
   }
 
   source {
-    type      = "CODEPIPELINE"
-    buildspec = templatefile("src/buildspec.yml", {})
+    type = "CODEPIPELINE"
+    buildspec = templatefile("src/buildspec.yml", {
+      environment = var.environment
+      tf_version  = var.tf_version
+    })
   }
 }
