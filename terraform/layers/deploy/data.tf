@@ -5,7 +5,7 @@ data "aws_codestarconnections_connection" "codestar_connection" {
 
 // Codepipeline --------------------------------
 
-data "aws_iam_policy_document" "codepipeline_assume_role" {
+data "aws_iam_policy_document" "codepipeline_assume_policy" {
   statement {
     effect = "Allow"
 
@@ -56,4 +56,54 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "${aws_s3_bucket.codepipeline_artifacts.arn}/*",
     ]
   }
+}
+
+
+// CodeBuild ------------------
+
+// Assume role policy
+
+data "aws_iam_policy_document" "codebuild_assume_policy" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["codebuild.amazonaws.com"]
+    }
+
+    actions = [
+      "sts:AssumeRole"
+    ]
+  }
+}
+
+// Permissions policy
+
+data "aws_iam_policy_document" "codebuild_policy" {
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "codebuild:BatchGetBuilds",
+      "codebuild:startBuild"
+    ]
+
+    resources = [aws_codebuild_project.codebuild_base.arn]
+
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "logs:PutLogEventsBatch",
+    ]
+
+    resources = ["arn:aws:logs:*"]
+  }
+
 }
