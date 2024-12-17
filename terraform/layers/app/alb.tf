@@ -27,10 +27,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_alb_all_out" {
   security_group_id = aws_security_group.alb_sg.id
 
   cidr_ipv4   = "0.0.0.0/0"
-  ip_protocol = "tcp"
-
-  from_port = 0
-  to_port   = 0
+  ip_protocol = "-1"
 
 }
 
@@ -64,13 +61,15 @@ module "public_alb" {
       backend_port     = 80
       target_type      = "instance"
       health_check = {
+        enabled             = true
         path                = "/"
         protocol            = "HTTP"
-        interval            = 60
-        timeout             = 5
-        healthy_threshold   = 3
-        unhealthy_threshold = 3
+        interval            = 300
+        matcher             = 200
+        timeout             = 120
+        unhealthy_threshold = 5
       }
+      create_attachment = false
     }
   ]
 }

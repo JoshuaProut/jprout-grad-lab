@@ -14,7 +14,6 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http_in" {
   from_port   = 80
   to_port     = 80
   ip_protocol = "tcp"
-
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_https_in" {
@@ -32,7 +31,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_https_in" {
 resource "aws_vpc_security_group_egress_rule" "allow_all_out" {
   security_group_id = aws_security_group.web_instances_sg.id
 
-  referenced_security_group_id = aws_security_group.alb_sg.id
+  cidr_ipv4 = "0.0.0.0/0"
 
   ip_protocol = -1
 }
@@ -46,6 +45,10 @@ resource "aws_launch_template" "web_launch_template" {
   user_data = base64encode(templatefile("./src/ec2WebUserData.tftpl", {
     bucket_name = data.aws_s3_bucket.s3_webfiles.id
   }))
+
+  iam_instance_profile {
+    name = aws_iam_instance_profile.web_instance_profile.name
+  }
 }
 
 

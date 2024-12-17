@@ -43,3 +43,13 @@ resource "aws_iam_policy" "s3_access_policy" {
     ]
   })
 }
+
+resource "aws_iam_instance_profile" "web_instance_profile" {
+  name = "${local.resource_prefix}-web-instance-profile"
+  role = aws_iam_role.s3_webfiles_access.name
+}
+
+resource "aws_iam_role_policy_attachment" "web_role_attach" {
+  role       = aws_iam_role.s3_webfiles_access.name
+  policy_arn = aws_iam_policy.s3_access_policy.arn
+}
