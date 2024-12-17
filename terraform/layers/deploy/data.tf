@@ -1,3 +1,10 @@
+// Codestar ------------------------------------
+data "aws_codestarconnections_connection" "codestar_connection" {
+  name = "${var.project}-github-connection"
+}
+
+// Codepipeline --------------------------------
+
 data "aws_iam_policy_document" "codepipeline_assume_role" {
   statement {
     effect = "Allow"
@@ -20,7 +27,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     ]
 
     resources = [
-      "*"
+      data.aws_codestarconnections_connection.codestar_connection.arn
     ]
   }
 }
