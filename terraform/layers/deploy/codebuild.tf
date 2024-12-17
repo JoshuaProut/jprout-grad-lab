@@ -15,6 +15,7 @@ resource "aws_codebuild_project" "codebuild_base" {
   }
 
   source {
-    type = "CODEPIPELINE"
+    type      = "CODEPIPELINE"
+    buildspec = templatefile("src/buildspec.yml", {})
   }
 }

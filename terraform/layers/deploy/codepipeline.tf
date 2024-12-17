@@ -32,7 +32,7 @@ resource "aws_codepipeline" "codepipeline_deploy" {
   stage {
     name = "DeployBase"
     action {
-      name             = "BaseLayer"
+      name             = "BuildBase"
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
@@ -41,7 +41,7 @@ resource "aws_codepipeline" "codepipeline_deploy" {
       version          = 1
 
       configuration = {
-        ProjectName = "github-${var.environment}-${var.project}-base"
+        ProjectName = "${var.environment}-${var.project}-base-codebuild"
       }
     }
   }
