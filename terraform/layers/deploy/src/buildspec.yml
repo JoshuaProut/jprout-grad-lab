@@ -22,6 +22,11 @@ phases:
       - cd "$${CODEBUILD_SRC_DIR}/terraform/layers/${tf_deploy_layer}"
       - terraform init -no-color --reconfigure --backend-config=../../environment/dev/${tf_deploy_layer}/${tf_deploy_layer}.s3.tfbackend
   
+  build:
+    commands:
+      - cd "$${CODEBUILD_SRC_DIR}/terraform/layers/${tf_deploy_layer}"
+      - terraform apply -no-color -auto-approve -compact-warnings
+  
     artifacts:
       files:
         - "**/*"
