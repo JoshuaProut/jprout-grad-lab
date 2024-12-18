@@ -19,8 +19,9 @@ resource "aws_codebuild_project" "codebuild_base" {
   source {
     type = "CODEPIPELINE"
     buildspec = templatefile("src/buildspec.yml", {
-      environment = var.environment
-      tf_version  = var.tf_version
+      environment     = var.environment
+      tf_version      = var.tf_version
+      tf_deploy_layer = "base"
     })
   }
 }
