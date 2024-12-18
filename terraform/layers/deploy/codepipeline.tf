@@ -30,7 +30,7 @@ resource "aws_codepipeline" "codepipeline_deploy" {
   }
 
   stage {
-    name = "DeployBase"
+    name = "Deploy"
     action {
       name             = "BuildBase"
       category         = "Build"
@@ -42,6 +42,20 @@ resource "aws_codepipeline" "codepipeline_deploy" {
 
       configuration = {
         ProjectName = "${var.environment}-${var.project}-base-codebuild"
+      }
+    }
+
+    action {
+      name             = "BuildApp"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      input_artifacts  = ["source_tf_output"]
+      output_artifacts = ["app_build_output"]
+      version          = 1
+
+      configuration = {
+        ProjectName = "${var.environment}-${var.project}-app-codebuild"
       }
     }
   }
