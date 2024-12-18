@@ -89,7 +89,6 @@ data "aws_iam_policy_document" "codebuild_assume_policy" {
 }
 
 // Permissions policy
-
 data "aws_iam_policy_document" "codebuild_policy" {
 
   statement {
@@ -131,5 +130,8 @@ data "aws_iam_policy_document" "codebuild_policy" {
       "${aws_s3_bucket.codepipeline_artifacts.arn}/*",
     ]
   }
+}
 
+data "aws_iam_policy" "admin_fullaccess" {
+  name = "AdministratorAccess"
 }
