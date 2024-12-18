@@ -1,0 +1,33 @@
+version: 0.2
+
+env:
+  variables:
+    ENVIRONMENT: ${environment}
+    TF_IN_AUTOMATION: 1
+    TERRAFORM_VERSION: ${tf_version}
+
+
+phases:
+  install: 
+    commands: 
+      - echo "Installing terraform"
+      - cd /usr/bin
+      - curl -O https://releases.hashicorp.com/terraform/$${TERRAFORM_VERSION}/terraform_$${TERRAFORM_VERSION}_linux_amd64.zip
+      - unzip terraform_$${TERRAFORM_VERSION}_linux_amd64.zip
+      - terraform --version
+      - echo "Completed installing terraform..."
+
+  pre_build:
+    commands:
+      - cd "$${CODEBUILD_SRC_DIR}/terraform/layers/${tf_deploy_layer}"
+      - terraform init -no-color --reconfigure --backend-config=../../environment/dev/${tf_deploy_layer}/${tf_deploy_layer}.s3.tfbackend
+  
+  build:
+    commands:
+      - cd "$${CODEBUILD_SRC_DIR}/terraform/layers/${tf_deploy_layer}"
+      - terraform apply -no-color -auto-approve -compact-warnings
+  
+    artifacts:
+      files:
+        - "**/*"
+      
